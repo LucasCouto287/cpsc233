@@ -67,22 +67,25 @@ public class Assignment1_2 {
 		// But you would divide by 8 (for base 8) instead of 10 (for base 10).
 		//
 		// Hint: You can assume 5 digits.  Using the above hint, work from right to left when adding.
-    // int sum = 0;
+    int sum = 0;
     // int num = fiveOctalDigitNum;
-    // while (num > 0) {
-    //     int lastDigit = num % 8;
-    //     sum += lastDigit;
-    //     num /= 8;
-    // }
-    // return sum;
+    int count = 5;
+    String octal = Integer.toString(fiveOctalDigitNum, 8);
+    int num = Integer.valueOf(octal, 8);
+    while (count > 0) {
+        int lastDigit = num % 8;
+        sum += lastDigit;
+        num /= 8;
+        count--;
+    }
+    return sum;
 
     // int number = fiveOctalDigitNum;
     // int sum = 0;
     // for (int index = 0; index < String.valueOf(number).length(); index++){
     //   sum += String.valueOf(number).charAt(index);
     // }
-    String octal = String.valueOf(fiveOctalDigitNum);
-    return Integer.parseInt(octal, 8);
+    // String octal = String.valueOf(fiveOctalDigitNum);
 	}
 
 	public static void main(String[] args) {
