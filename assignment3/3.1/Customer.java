@@ -3,12 +3,12 @@ public class Customer {
   int customerID;
 
   public String toString() {
-    return String.valueOf(customerID) + ": " + name;
+    return String.valueOf(name + " " + customerID);
   }
 
   public Customer() {
-    this.name = getName();
-    this.customerID = getID();
+    this.name = "";
+    this.customerID = 0;
   }
 
   public Customer(String name, int customerID) {
@@ -17,18 +17,20 @@ public class Customer {
   }
 
   public String getName() {
-    return name;
+    return this.name;
+  }
+
+  public void setName(String newName){
+    this.name = newName;
   }
 
   public int getID() {
-    return customerID;
+    return this.customerID;
   }
 
   public Customer(Customer customer) {
-    name = customer.name;
-    customerID = customer.customerID;
+    this.name = customer.getName();
+    this.customerID = customer.getID();
   }
-
-
 
 }

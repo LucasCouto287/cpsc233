@@ -3,9 +3,14 @@ public class BankAccount {
   double balance;
   int accNumber = 1;
   String accountNumber;
+  Customer accountHolder;
 
   public static void main(String[] args) {
-    Customer accountHolder = new Customer();
+
+  }
+
+  public void setAccountHolder(Customer oldCustomer) {
+    accountHolder = oldCustomer;
   }
 
   public BankAccount(double accountBalance) {
@@ -14,7 +19,12 @@ public class BankAccount {
     accNumber ++;
   }
 
-  public BankAccount(Customer customer, )
+  public BankAccount(Customer customer, double accBalance){
+    accountHolder = customer;
+    balance = accBalance;
+    accountNumber = String.format("%04d", accNumber);
+    accNumber ++;
+  }
 
   public BankAccount() {
     balance = 0;
@@ -22,8 +32,14 @@ public class BankAccount {
     accNumber ++;
   }
 
+  public BankAccount(BankAccount oldAccount) {
+    accountHolder = oldAccount.getAccountHolder();
+    balance = oldAccount.getBalance();
+    accountNumber = oldAccount.getAccountNumber();
+  }
+
   public BankAccount(double accountBalance, String bankAccountNumber) {
-    if (accountBalance > 0) {
+    if (accountBalance >= 0) {
       balance = accountBalance;
       accountNumber = bankAccountNumber;
     }
@@ -41,6 +57,12 @@ public class BankAccount {
     }
   }
 
+  public void transfer(double transferAmount, BankAccount account){
+    if(balance >= transferAmount) {
+      withdraw(transferAmount);
+      account.deposit(transferAmount);
+    }
+  }
 
   public double getBalance() {
     return balance;
@@ -50,7 +72,11 @@ public class BankAccount {
     return accountNumber;
   }
 
+  public Customer getAccountHolder() {
+    return accountHolder;
+  }
+
   public String toString() {
-    return accountNumber + ": " + balance;
+    return "(" + accountHolder.toString() + ")" + " " + accountNumber + ": " + balance;
   }
 }
