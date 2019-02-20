@@ -19,9 +19,11 @@ public class Company {
   }
 
   public ArrayList<Employee> getEmployeeList(){
-    // ArrayList<Employee> copyEmployeeList = new ArrayList<>(employeeList);
-    // return new ArrayList<>(this.employeeList);
-    return this.employeeList;
+    ArrayList<Employee> copyEmployeeList = new ArrayList<Employee>();
+    for(int index = 0; index < this.employeeList.size(); index++){
+      copyEmployeeList.add(this.employeeList.get(index));
+    }
+    return copyEmployeeList;
   }
 
   public void addEmployee(Employee employee) {
