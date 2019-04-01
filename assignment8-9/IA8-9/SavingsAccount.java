@@ -1,4 +1,7 @@
 import java.io.BufferedReader;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 public class SavingsAccount extends BankAccount{
 
@@ -13,8 +16,20 @@ public class SavingsAccount extends BankAccount{
     this.annualInterestRate = 0.05;
   }
 
-  public SavingsAccount(BufferedReader reader) {
+  public SavingsAccount(BufferedReader reader) throws IOException {
+    super(reader);
+    String line = reader.readLine();
+    this.annualInterestRate = Double.parseDouble(line);
+    line = reader.readLine();
+    this.minimumBalance = Double.parseDouble(line);
+  }
 
+  public void saveToTextFile(String filename) throws IOException {
+    super.saveToTextFile(filename);
+    PrintWriter writer = new PrintWriter(new FileOutputStream(filename, true));
+    writer.println(String.valueOf(this.getAnnualInterestRate()));
+    writer.println(String.valueOf(this.getMinimumBalance()));
+    writer.close();
   }
   
   /**
@@ -92,7 +107,6 @@ public class SavingsAccount extends BankAccount{
 
 @Override
 protected double getMonthlyFeesAndInterest() {
-  // TODO Auto-generated method stub
   return (annualInterestRate/12)*getBalance();
 }
 

@@ -14,30 +14,19 @@ public class Customer {
     this.customerID=0;
   }
 
-  public Customer(BufferedReader reader) {
-    try {
-      String firstLine = reader.readLine();
-      String secondLine = reader.readLine();
-      if (firstLine == "null" || secondLine == "null") {
-        throw new IOException("Customer is null in file");
-      } 
-      if (firstLine == null && secondLine == null) {
-        this.name = "";
-        this.customerID = 0;
-        throw new IOException("Customer is null in file");
-      }
-      if (firstLine != null && secondLine == null) {
-        throw new IOException("No customer ID found in file");
-      }
-      else {
-        this.setName(firstLine);
-        this.customerID = Integer.parseInt(reader.readLine());
-      }
+  public Customer(BufferedReader reader) throws IOException {
+    String line = reader.readLine();
+    if (line.contains("null")) {
+      throw new IOException("Customer is null in file");
     }
-    catch (IOException error) {
-      error.printStackTrace();
+    this.setName(line);
+    line = reader.readLine();
+    if(line != null) {
+      this.customerID = Integer.parseInt(line);
     }
-    // reader.close();
+    else {
+      throw new IOException("No customer ID found in file");
+    }
   }
 
   public void save(PrintWriter writer) {

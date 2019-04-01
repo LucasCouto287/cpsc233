@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -8,37 +9,30 @@ public abstract class BankAccount{ //public abstract class BankAccount
   private String accountNumber;
   private Customer accountHolder;
 
-  public BankAccount(BufferedReader reader) {
-    try {
-      String firstLine = reader.readLine();
-      String secondLine = reader.readLine();
-      if (firstLine == null && secondLine == null) {
-        this.balance = 0.0;
-        this.accountNumber = "0001";
+  public BankAccount(BufferedReader reader) throws IOException {
+      String line = reader.readLine();
+      this.balance = Double.parseDouble(line);
+      line = reader.readLine();
+      this.accountNumber = line;
+      try {
+        this.accountHolder = new Customer(reader);
+      } 
+      catch (IOException e) {
+        this.accountHolder = null;
       }
-      else if (firstLine == "null") {
-        throw new IOException("BankAccount is null in file");
-      }
-      else if (firstLine != null && secondLine == null) {
-        throw new IOException("No customer ID found in file");
-      }
-      accountHolder = new Customer(reader);
-    } 
-    catch (IOException e) {
-      accountHolder = null;
-      e.printStackTrace();
-    }
   }
 
   public void saveToTextFile(String filename) throws IOException{
-    // try {
-      PrintWriter writer = new PrintWriter(filename);
-      writer.println(String.valueOf(this.balance));
-      writer.println(this.accountNumber);
-      // if (filename == null) {
-      //   throw new IOException("No customer ID found in file");
-      // }
-    // }
+    PrintWriter writer = new PrintWriter(new FileOutputStream(filename));
+    writer.println(String.valueOf(this.balance));
+    writer.println(this.accountNumber);
+    if(this.accountHolder == null) {
+      writer.println("null");
+    }
+    else {
+      this.accountHolder.save(writer);
+    }
+    writer.close();
   }
 
   protected abstract double getMonthlyFeesAndInterest();
